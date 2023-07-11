@@ -1,0 +1,5 @@
+package ssg.com.a.Dto;
+
+public class StudentDto {
+
+}

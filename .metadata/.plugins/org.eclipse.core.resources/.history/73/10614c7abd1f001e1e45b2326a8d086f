@@ -1,0 +1,11 @@
+package ssg.com.a.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+public class StudentController {
+	
+	@RequestMapping("hello.do")
+	public String hello() {
+		
+	}
+}
