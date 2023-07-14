@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ssg.com.a.dto.StudentDto;
 
@@ -80,6 +81,6 @@ public class HelloController {
 		return "home";
 		
 	}
-	
-	
 }
+	
+	
