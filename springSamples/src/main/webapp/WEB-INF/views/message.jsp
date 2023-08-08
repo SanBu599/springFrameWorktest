@@ -53,7 +53,7 @@ if(bbswrite != null && !bbswrite.equals("")){
 		%>
 		<script type="text/javascript">
 		alert("다시 작성해 주십시오");
-		location.href = "=bbswrite.do";
+		location.href = "bbswrite.do";
 		</script>
 		<%
 	}

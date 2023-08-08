@@ -6,43 +6,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ssg.com.a.dao.BbsDao;
+import ssg.com.a.dto.BbsComment;
 import ssg.com.a.dto.BbsDto;
 import ssg.com.a.dto.BbsParam;
+import ssg.com.a.dto.BbsUpdate;
 
 @Service
-public class BbsServiceImpl implements BbsService  {
+public class BbsServiceImpl implements BbsService{
 
 	@Autowired
 	BbsDao dao;
 
 	@Override
-	public List<BbsDto> bbslist(BbsParam param) {
-		
+	public List<BbsDto> bbslist(BbsParam param) {		
 		return dao.bbslist(param);
 	}
 
 	@Override
-	public int getAllBbs(BbsParam param) {
-		
+	public int getAllBbs(BbsParam param) {		
 		return dao.getAllBbs(param);
 	}
 
 	@Override
-	public boolean bbswrite(BbsDto dto) {
-		
+	public boolean bbswrite(BbsDto dto) {		
 		return dao.bbswrite(dto)>0?true:false;
 	}
 
 	@Override
-	public BbsDto bbsdetail(int seq) {
-	
+	public BbsDto bbsdetail(int seq) {		
 		return dao.bbsdetail(seq);
 	}
 
 	@Override
-	public boolean bbsupdate(BbsDto dto) {
-		return dao.bbsupdate(dto)>0?true:false;
+	public boolean commentWrite(BbsComment comment) {		
+		return dao.commentWrite(comment)>0?true:false;
 	}
-	
+
+	@Override
+	public List<BbsComment> commentList(int seq) {		
+		return dao.commentList(seq);
+	}
+	@Override
+	public boolean bbsupdate(BbsUpdate update) {
+		
+		return dao.bbsupdate(update)>0?true:false;
+	}			
 	
 }

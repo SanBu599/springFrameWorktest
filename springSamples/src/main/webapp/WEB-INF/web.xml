@@ -18,6 +18,7 @@
   		<param-name>contextConfigLocation</param-name>
   		<param-value>
   			/WEB-INF/spring/servlet-context.xml
+  			/WEB-INF/spring/file-context.xml
   		</param-value>
   	</init-param>
   	
@@ -35,8 +36,11 @@
   	<param-name>contextConfigLocation</param-name>
   	<param-value>
   		/WEB-INF/spring/applicationContext.xml
+  		
   	</param-value>
   </context-param>
+  
+  
   
   <listener>	<!--listener 있으면 프로그램 시작한다는 말  -->
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

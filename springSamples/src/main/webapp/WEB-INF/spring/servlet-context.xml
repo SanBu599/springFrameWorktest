@@ -7,7 +7,6 @@
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
-	
 	<!-- spring MVC annotation(주석문, 지시문)을 사용하기 위한 설정 -->
 	<context:annotation-config/>
 	
@@ -15,12 +14,6 @@
 		<property name="prefix" value="/WEB-INF/views/"/>	<!-- view 파일들(jsp, html)의 위치 -->
 		<property name="suffix" value=".jsp"/>				<!-- view 파일의 확장자명 -->
 	</bean>
-	
-	<!-- 
-		InternalResourceViewResolver viewResolver = new org.springframework.web.servlet.view.InternalResourceViewResolver
-		viewResolver.prefix = "/WEB-INF/views/"
-		viewResolver.suffix = ".jsp"
-	 -->
 	
 	<!-- 공통 팩키지 -->
 	<context:component-scan base-package="ssg.com.a"/>
@@ -31,6 +24,12 @@
 	
 	<!-- spring에서 처리할 수 없는 요청은 tomcat이 처리 -->
 	<mvc:default-servlet-handler/>
+	            
 </beans>
+
+
+
+
+
 
 

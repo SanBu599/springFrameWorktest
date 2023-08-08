@@ -8,9 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import ssg.com.a.dto.BbsComment;
 import ssg.com.a.dto.BbsDto;
 import ssg.com.a.dto.BbsParam;
+import ssg.com.a.dto.BbsUpdate;
 import ssg.com.a.service.BbsService;
 
 @Controller
@@ -18,60 +21,53 @@ public class BbsController {
 
 	@Autowired
 	BbsService service;
-
+	
 	@GetMapping("bbslist.do")
 	public String bbslist(BbsParam param, Model model) {
-		System.out.println("BbsController bbslist()" + new Date());
-
-		if (param == null || param.getSearch() == null || param.getChoice() == null) {
+		System.out.println("BbsController bbslist() " + new Date());
+		System.out.println(param.toString());
+		
+		if(param == null || param.getSearch() == null || param.getChoice() == null) {
 			param = new BbsParam("", "", 0);
 		}
-
-		
 		
 		List<BbsDto> list = service.bbslist(param);
-		
-		
+				
 		// 글의 총수
-		int count = service.getAllBbs(param); // 23
+		int count = service.getAllBbs(param);	// 23
 		// 페이지를 계산
-		int pageBbs = count / 10; // ->2
-		if ((count % 10) > 0) {
-			pageBbs = pageBbs + 1; // -> 3페이지
-		}
-
-		
+		int pageBbs = count / 10;	// -> 2
+		if((count % 10) > 0) {
+			pageBbs = pageBbs + 1;	// -> 3 페이지
+		}		
 		
 		model.addAttribute("bbslist", list);
 		model.addAttribute("pageBbs", pageBbs);
 		model.addAttribute("param", param);
-
+		
 		return "bbslist";
 	}
-
+	
 	@GetMapping("bbswrite.do")
 	public String bbswrite() {
-		System.out.println("BbsController bbswrite()" + new Date());
-
+		System.out.println("BbsController bbswrite() " + new Date());
 		return "bbswrite";
 	}
-
 	
 	@PostMapping("bbswriteAf.do")
 	public String bbswriteAf(BbsDto dto, Model model) {
-		System.out.println("BbsController bbswriteAf()"+ new Date());
-		String bbswrite="BBS_ADD_OK"; 
+		System.out.println("BbsController bbswriteAf() " + new Date());
 		
-	boolean isS = service.bbswrite(dto); 
-	if(isS==false) {
-		bbswrite="BBS_ADD_NO";
-	} 
-	model.addAttribute("bbswrite",bbswrite);
-	return "message";
+		boolean isS = service.bbswrite(dto);
+		String bbswrite = "BBS_ADD_OK";
+		if(isS == false) {
+			bbswrite = "BBS_ADD_NO";
+		}
+		model.addAttribute("bbswrite", bbswrite);
+		
+		return "message";
 	}
 	
-
-
 	@GetMapping("bbsdetail.do")
 	public String bbsdetail(int seq, Model model) {
 		System.out.println("BbsController bbsdetail() " + new Date());
@@ -81,26 +77,73 @@ public class BbsController {
 		
 		return "bbsdetail";
 	}
-
+	
+	// 댓글
+	@PostMapping("commentWriteAf.do")
+	public String commentWriteAf(BbsComment bbsComment) {
+		System.out.println("BbsController commentWriteAf " + new Date());
+		boolean isS = service.commentWrite(bbsComment);
+		if(isS) {
+			System.out.println("댓글 작성에 성공했습니다");
+		}else {
+			System.out.println("댓글 작성에 실패했습니다");
+		}
+		
+	//	return "bbsdetail.do"; -> 이건 안됨!
+		
+		// redirect == sendRedirect
+		return "redirect:/bbsdetail.do?seq=" + bbsComment.getSeq();
+	}
+	
+	@ResponseBody
+	@GetMapping("commentList.do")
+	public List<BbsComment> commentList(int seq){
+		System.out.println("BbsController commentList " + new Date());
+		
+		return service.commentList(seq);
+	}
+	
+	
 	@GetMapping("bbsupdate.do")
-	public String updatebbs() {
-		System.out.println("BbsController bbsdetail() " + new Date());
-		return "updatebbs";
+	public String bbsupdate(int seq, Model model) {
+		System.out.println("BbsController bbsupdate " + new Date());
+		
+		BbsDto dto = service.bbsdetail(seq);
+		model.addAttribute("dto", dto);
+		model.addAttribute("seq", seq);
+		
+		return "bbsupdate";
 	}
 	
-	@GetMapping("bbsupdateAf.do")
-	public String updatebbsAf(BbsDto dto,Model model) {
-		System.out.println("BbsController updatebbsAf() " + new Date());
-	String bbsupdate = "BBS_UPDATE_OK";
-	boolean isS = service.bbsupdate(dto);
-	if(isS == false) {
-		bbsupdate = "BBS_UPDATE_NO";
-	}
-	
-	model.addAttribute("bbsupdate", bbsupdate);
-	
-	return "message";
-	
+	@PostMapping("bbsupdateAf.do")
+	public String bbsupdateAf(BbsUpdate update) {
+		System.out.println("BbsController bbsupdateAf " + new Date());
+		
+		String bbsupdate = "BBS_UPDATE_OK";
+		boolean isS = service.bbsupdate(update);
+		if(isS==false) {
+			bbsupdate = "BBS_UPDATE_OK";
+		}
+		return "message";
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

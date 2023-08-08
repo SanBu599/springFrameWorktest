@@ -8,25 +8,22 @@ import ssg.com.a.dto.MemberDto;
 
 @Service
 public class MemberServiceImpl implements MemberService{
-	
+
 	@Autowired
 	MemberDao dao;
 
 	@Override
-	public boolean idcheck(String id) {
-		
+	public boolean idcheck(String id) {		
 		return dao.idcheck(id)>0?true:false;
 	}
 
 	@Override
-	public boolean addmember(MemberDto dto) {
-		
+	public boolean addmember(MemberDto dto) {		
 		return dao.addmember(dto)>0?true:false;
 	}
 
 	@Override
-	public MemberDto login(MemberDto dto) {
-	
+	public MemberDto login(MemberDto dto) {		
 		return dao.login(dto);
 	}
 	

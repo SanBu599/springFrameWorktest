@@ -15,17 +15,30 @@ public class BbsUtil {
 		
 		return newTitle;
 	}
+	
 	// 답글의 화살표함수
 	public static String arrow(int depth) {
-		String img = "<img src='arrow1.png' width='20px' height='20px' />";
-		String nbsp =	"&nbsp;&nbsp;&nbsp;&nbsp;";
-				
+		String img = "<img src='./images/arrow1.png' width='15px' height='15px' />";
+		String nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
+		
+		// 여백
 		String ts = "";
-		for(int i=0;i<depth;i++) {
-			ts+= nbsp;
+		for(int i = 0;i < depth; i++) {
+			ts += nbsp;
 		}
-		return depth==0?"":ts+img;
-				
+		
+		return depth==0?"":ts + img;
 	}
+
 }
+
+
+
+
+
+
+
+
+
+
 

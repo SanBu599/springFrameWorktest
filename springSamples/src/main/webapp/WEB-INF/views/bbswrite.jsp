@@ -4,60 +4,69 @@
     
 <%
 	MemberDto mem = (MemberDto)session.getAttribute("login");
-    if(mem==null|| mem.getId().equals("")){
-	%>
-	<script>
-		alert("로그인 해주십시오");
-		location.href="login.do";
-	</script>
-	<%
-}
-%>    
+%>  
     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>게시판 글쓰기</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<style type="text/css">
+.center{
+	margin: auto;
+	width: 800px;
+	text-align: center;		
+}
+th{
+	background: royalblue;
+	color: white;
+}
+</style>
 </head>
 <body>
 
 <h1>글쓰기</h1>
 <br>
 
-<div align="center">
+<div class="center">
 
 <form id="frm" method="post">
 
-<table border="1">
+<table class="table table-bordered">
 <col width="200"><col width="500">
 
 <tr>
 	<th>아이디</th>
 	<td>
-		<input type="text" name="id" size="50" value="<%=mem.getId() %>" readonly="readonly">
+		<input type="text" name="id" class="form-control" value="<%=mem.getId() %>" readonly="readonly">
 	</td>
 </tr>
 <tr>
 	<th>제목</th>
 	<td>
-		<input type="text" id="title" name="title" size="50" placeholder="제목을 기입">
+		<input type="text" id="title" name="title" class="form-control"placeholder="제목을 기입">
 	</td>
 </tr>
 
 <tr>
 	<th>내용</th>
 	<td>
-		<textarea rows="20" cols="50" id="content" name="content" placeholder="내용을 기입"></textarea>
+		<textarea rows="15" cols="50" class="form-control" id="content" name="content" placeholder="내용을 기입"></textarea>
 	</td>
 </tr>
 
 </table>
 <br>
 <!-- <input type="submit" value="글쓰기"> -->
-<button type="button">글쓰기</button>
+<button type="button" class="btn btn-primary">글쓰기</button>
 
 </form>
 </div>
@@ -86,3 +95,10 @@ $(document).ready(function(){
 
 </body>
 </html>
+
+
+
+
+
+
+

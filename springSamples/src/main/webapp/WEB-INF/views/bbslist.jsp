@@ -1,14 +1,10 @@
-
 <%@page import="ssg.com.a.dto.BbsParam"%>
-<%@page import="ssg.com.a.dto.MemberDto"%>
 <%@page import="util.BbsUtil"%>
+<%@page import="ssg.com.a.dto.MemberDto"%>
 <%@page import="ssg.com.a.dto.BbsDto"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
- 
-
 
 <%
 	List<BbsDto> list = (List)request.getAttribute("bbslist");
@@ -36,7 +32,6 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="jquery/jquery.twbsPagination.min.js"></script>
 
@@ -61,7 +56,17 @@ tr {
 <h1>게시판</h1>
 <br>
 
-<a href="calendarList.do">일정관리</a>
+<a href="pdslist.do">자료실</a>
+
+<%
+MemberDto login = (MemberDto)session.getAttribute("login");
+System.out.println(login.toString());
+if(login != null){
+	%>
+	<a href="member?param=logout">login</a>
+	<%
+	}
+%>
 
 <div class="center">
 
@@ -74,7 +79,7 @@ tr {
 </thead>
 
 <tbody>
-<% 
+<%
 if(list == null || list.size() == 0){
 	%>
 	<tr>
@@ -90,28 +95,23 @@ if(list == null || list.size() == 0){
 			<td><%=i + 1 %></td>
 			
 			<%
-				if(bbs.getDel() == 0){
-					
-				
-			%>
-			
-			<td style="text-align: left;">
-				<a href="bbsdetail.do?seq=<%=bbs.getSeq() %>">
-					<%= BbsUtil.arrow(bbs.getDepth()) %>
-					<%= BbsUtil.titleDot(bbs.getTitle()) %>
-				</a>
-			</td>
-			
-			<%
-				}else{
-			%>
-				<td>
-					<%= BbsUtil.arrow(bbs.getDepth()) %>
-					<font color="#ff0000">***이글 은 작성자에 의해서 삭제되었습니다.***</font>
+			if(bbs.getDel() == 0){
+				%>				
+				<td style="text-align: left;">
+					<a href="bbsdetail.do?seq=<%=bbs.getSeq() %>">
+						<%=BbsUtil.arrow(bbs.getDepth()) %>
+						<%=BbsUtil.titleDot(bbs.getTitle()) %>
+					</a>
 				</td>
+				<% 
+			}else{
+			%>
+				<td style="text-align: left;">
+					<%=BbsUtil.arrow(bbs.getDepth()) %>
+					<font color="#ff0000"> ****** 이 글은 작성자에 의해서 삭제되었습니다</font>
+				</td>			
 			<%
-				}
-				
+			}
 			%>
 			
 			<td><%=bbs.getReadcount() %></td>
@@ -124,27 +124,29 @@ if(list == null || list.size() == 0){
 </tbody>
 
 </table>
-<br>
-<%-- <%-- 
-	for(int i= 0; i<pageBbs;i++){
-		if(pageNumber==i){	// 현재 페이지
-			 
-			<span style="font-size: 10pt; color: blue;font-weight: bold;">
-				<%= i+1 %>
-			</span>
-			<%
-		}else{				// 그밖에 페이지
+
+
+<%--
+	for(int i = 0;i < pageBbs; i++){	// 0 1 2 3 ~
+		if(pageNumber == i){	// 현재 페이지
 			%>
-			<a href="#none" title="<%= i+1 %>페이지" onclick="goPage(<%=i %>)"
-				style="fon'15pt";color:#000;font-weight:bold; text-decoration:none;">
-				[<%=i +1 %>]
-			</a>
+			<span style="font-size: 15pt;color: blue;font-weight: bold;">
+				<%=i + 1 %>
+			</span>			
 			<%
 		}
+		else{	// 그밖에 페이지
+			%>
+			<a href="#none" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)"
+				style="font-size: 15pt;color: #000; font-weight: bold; text-decoration: none;">
+				[<%=i + 1 %>]
+			</a>			
+			<%
+		}		
 	}
-
 --%>
 <br>
+
 <div class="container">
     <nav aria-label="Page navigation">
         <ul class="pagination" id="pagination" style="justify-content:center"></ul>
@@ -154,7 +156,7 @@ if(list == null || list.size() == 0){
 <br>
 <div class="form-row align-items-center d-flex justify-content-center align-items-center container">
 <select id="choice" class="form-control" style="width:auto;">
-	<option value="">검색</option>
+	<option value="start">검색</option>
 	<option value="title">제목</option>
 	<option value="content">내용</option>
 	<option value="writer">작성자</option>
@@ -167,31 +169,28 @@ if(list == null || list.size() == 0){
 <button type="button" onclick="searchBtn()" class="btn btn-primary">검색</button>
 </div>
 
-<br><br>
+<br>
 <a href="bbswrite.do">글쓰기</a>
 
 </div>
 
 <script type="text/javascript">
 
-$(document).ready(function(){
+
 	
-
-
 // Java -> JavaScript
-let search = "<%=search%>";	// 문자열일 경우
+let search = "<%=search %>"; 	// 문자열일 경우
+	
 if(search != ""){
 	let obj = document.getElementById("choice");
 	obj.value = "<%=choice %>";
-	obj.setAttribute("selected","selected");
-}
-
+	obj.setAttribute("selected", "selected");
+} 
 
 function searchBtn() {
-	//let choice = document.getElementById("choice").value;
-	let choice = $("#choice").val();
-	let search = $("#search").val();
-	//let search = document.getElementById("search").value;
+	let choice = document.getElementById("choice").value;
+//	let choice = $("#choice").val();
+	let search = document.getElementById("search").value;
 	/*
 	if(choice.trim() == ""){
 		alert("카테고리를 선택해 주십시오");
@@ -202,36 +201,49 @@ function searchBtn() {
 		return;
 	}
 	*/
-	location.href = "bbs?param=bbslist&choice="+choice+"&search="+search;
+	location.href = "bbslist.do?choice=" + choice + "&search=" + search;
 }
-})
-/* function goPage( pageNum ){
+/*
+function goPage( pageNum ) {
 	let choice = $("#choice").val();
 	let search = $("#search").val();
-	
-	location.href = "bbslist.do?choice="+choice+"&search="+search+"&pageNumber="+pageNum;
-	
-} */
+
+	location.href = "bbslist.do?choice=" + choice + "&search=" + search + "&pageNumber=" + pageNum;
+}
+*/
+
 $("#pagination").twbsPagination({
 	startPage:<%=pageNumber+1 %>,
 	totalPages:<%=pageBbs %>,
 	visiblePages:10,
-	first:'<span srid-hidden="true">«</span>',		//	처음 페이지로 이동
+	first:'<span srid-hidden="true">«</span>',		// 처음 페이지로 이동
 	prev:"이전",
 	next:"다음",
 	last:'<span srid-hidden="true">»</span>',
-	initiateStartPageClick:false,		//	자동 실행이 되지 않도록 설정
-	onPageClick:function(event,page){
-		//alert(page);
+	initiateStartPageClick:false,					// 자동 실행이 되지 않도록 설정
+	onPageClick:function(event, page){
+		// alert(page);
 		let choice = $("#choice").val();
 		let search = $("#search").val();
-		
-		location.href = "bbslist.do?choice="+choice+"&search="+search+"&pageNumber="+(page-1);
+
+		location.href = "bbslist.do?choice=" + choice + "&search=" + search + "&pageNumber=" + (page - 1);
 	}
 });
+
 
 </script>
 
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

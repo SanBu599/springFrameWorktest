@@ -4,23 +4,21 @@ import java.io.Serializable;
 
 // BBS Bulletin Board System
 public class BbsDto implements Serializable{
+
+	private int seq;		// sequence 글번호
+	private String id;		// 작성자
 	
-	private int seq;	// sequence
-	private String id;	// 작성자
-	
-	private int ref;	// 그룹번호(글번호)
-	private int step;	// 행번호
-	private int depth;	// 깊이
+	private int ref;		// 그룹번호(글번호)
+	private int step;		// 행번호
+	private int depth;		// 깊이
 	
 	private String title;
 	private String content;
-	private String wdate;
-	
+	private String wdate;	
 	private int del;
-	private int readcount;	//조회수
+	private int readcount;	// 조회수
 	
 	public BbsDto() {
-
 	}
 
 	public BbsDto(String id, String title, String content) {
@@ -125,5 +123,9 @@ public class BbsDto implements Serializable{
 		this.readcount = readcount;
 	}
 	
-	
 }
+
+
+
+
+

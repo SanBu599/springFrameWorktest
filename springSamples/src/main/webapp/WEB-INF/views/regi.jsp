@@ -27,7 +27,6 @@
 
 <form action="regiAf.do" method="post">
 
-
 <table border="1">
 <tr>
 	<th>아이디</th>
@@ -106,4 +105,13 @@ $(document).ready(function(){
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 

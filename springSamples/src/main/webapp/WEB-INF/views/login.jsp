@@ -34,7 +34,7 @@
 
 <div class="center">
 
-<form action="login.do" method="post">
+<form action="loginAf.do" method="post">
 <br>
 <table class="table">
 <tr>
@@ -104,4 +104,13 @@ $("#chk_save_id").click(function(){
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
